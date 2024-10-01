@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetal Health Prediction</title>
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(120deg, #e0f7fa, #80deea);
+            animation: backgroundAnimation 15s ease infinite;
+            font-family: 'Arimo', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        @keyframes backgroundAnimation {
+            0%, 100% { background-color: #e0f7fa; }
+            50% { background-color: #80deea; }
+        }
+
+        .login {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 450px;
+            animation: slideIn 0.6s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            text-align: center;
+            color: #007BFF;
+            margin-bottom: 25px;
+            font-size: 2em;
+        }
+
+        input[type="number"] {
+            width: calc(100% - 26px);
+            padding: 12px;
+            margin: 12px 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            transition: border-color 0.3s;
+            display: block;
+            font-size: 16px;
+        }
+
+        input[type="number"]:focus {
+            border-color: #007BFF;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            transition: background-color 0.3s, transform 0.2s;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .prediction {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 1.2em;
+            color: #333;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 8px;
+            display: none; /* Initially hidden */
+        }
+
+        @media (max-width: 600px) {
+            .login {
+                padding: 20px;
+            }
+
+            input[type="number"], button {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login">
+        <h1>Fetal Health Prediction</h1>
+
+        <form id="predictionForm" action="{{ url_for('predict')}}" method="post">
+            <input type="number" name="baseline_value" placeholder="Baseline Value" min="106" max="160" required="required" aria-label="Baseline Value" />
+            <input type="number" name="accelerations" placeholder="Accelerations" step="0.001" min="0.000" max="0.019" required="required" aria-label="Accelerations" />
+            <input type="number" name="prolongued_decelerations" placeholder="Prolongued Decelerations" step="0.001" min="0.000" max="0.005" required="required" aria-label="Prolongued Decelerations" />
+            <input type="number" name="abnormal_short_term_variability" placeholder="Abnormal Short Term Variability" min="12" max="87" required="required" aria-label="Abnormal Short Term Variability" />
+            <input type="number" name="mean_value_of_short_term_variability" placeholder="Mean Value of Short Term Variability" step="0.1" min="0.2" max="7.0" required="required" aria-label="Mean Value of Short Term Variability" />
+            <input type="number" name="percentage_of_time_with_abnormal_long_term_variability" placeholder="Percentage of Time with Abnormal Long Term Variability" min="0" max="91" required="required" aria-label="Percentage of Time with Abnormal Long Term Variability" />
+            <input type="number" name="histogram_mode" placeholder="Histogram Mode" min="60" max="187" required="required" aria-label="Histogram Mode" />
+            <input type="number" name="histogram_mean" placeholder="Histogram Mean" min="73" max="182" required="required" aria-label="Histogram Mean" />
+            <input type="number" name="histogram_median" placeholder="Histogram Median" min="77" max="186" required="required" aria-label="Histogram Median" />
+            <input type="number" name="histogram_variance" placeholder="Histogram Variance" min="0" max="269" required="required" aria-label="Histogram Variance" />
+
+            <button type="submit">Predict</button>
+        </form>
+
+        <div id="predictionResult" class="prediction"></div>
+    </div>
+
+    <script>
+      // Dummy prediction logic for demonstration (replace with your actual logic)
+      document.getElementById("predictionForm").addEventListener("submit", function(event) {
+          event.preventDefault(); // Prevent actual form submission
+  
+          // This is where you would normally call your prediction API
+          // For demonstration, we'll simulate a prediction
+          const simulatedPrediction = 1; // Replace with actual prediction value from your backend
+  
+          let predictionText = "";
+          let guidanceText = "";
+  
+          if (simulatedPrediction === 0) {
+              predictionText = "Normal";
+              guidanceText = "The health of the fetus is normal. No immediate action is required, but continue with regular prenatal check-ups and follow your healthcare provider's advice.";
+          } else if (simulatedPrediction === 1) {
+              predictionText = "Suspect";
+              guidanceText = "The health of the fetus is suspect, which means there might be potential concerns. It's recommended to consult with your healthcare provider for further monitoring and evaluation.";
+          } else if (simulatedPrediction === 2) {
+              predictionText = "Pathological";
+              guidanceText = "The health of the fetus is pathological, indicating potential complications. Immediate consultation with your healthcare provider or specialist is strongly advised to ensure the well-being of the fetus.";
+          }
+  
+          // Display the detailed result
+          const predictionResultDiv = document.getElementById("predictionResult");
+          predictionResultDiv.innerHTML = `<strong>Result:</strong> ${predictionText}<br><br><strong>Guidance:</strong> ${guidanceText}`;
+          predictionResultDiv.style.display = "block"; // Show the result
+      });
+  </script>
+  
+</body>
+
+</html>
