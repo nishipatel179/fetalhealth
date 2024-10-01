@@ -1,6 +1,5 @@
 IPython
-imblearn
-itertools
+imbalanced-learn
 matplotlib
 numpy
 pandas
@@ -10,4 +9,3 @@ scikit-learn
 seaborn
 warnings
 xgboost
-joblib
