@@ -14,7 +14,7 @@ scaler = joblib.load('scaler.joblib')
 def home():
     return render_template('home.html')
 
-@app.route('/predict_api', methods=['POST'])
+@app.route('https://illustrious-yeot-e1cc48.netlify.app/predict_api', methods=['POST'])
 def predict_api():
     data = request.json['data']
     print(data)
@@ -32,4 +32,6 @@ def predict():
     return render_template("home.html", prediction_text="The House price prediction is {}".format(output))
 
 if __name__ == "__main__":
-    pass
+    app.run(debug=True)
+
+    
